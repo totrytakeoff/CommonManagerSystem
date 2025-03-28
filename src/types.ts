@@ -113,3 +113,22 @@ export interface PieOptions {
     type: string
   }[]
 }
+
+export interface Config {
+  url: string
+  name: string
+  total: number
+  curPage: number
+  body?: User[]
+}
+
+export interface User {
+  id: string
+  name: string
+  addr: string
+  age: number
+  birth: string
+  sex: number
+}
+
+// export type{ User}
