@@ -1,7 +1,7 @@
 // 定义 CountData 接口
 export interface CountData {
   name: string
-  count: number
+  value: number
   icon: string // 如果图标组件是动态加载的，可以暂时保留 any，后续优化
   color: string
 }

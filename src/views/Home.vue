@@ -31,8 +31,8 @@
             shadow="hover">
             <component :is="item.icon" class="icon" :style="{ background: item.color }"></component>
             <div class="detail">
+              <p class="num">{{ item.value }}</p>
               <p class="name">{{ item.name }}</p>
-              <p class="num">{{ item.count }}</p>
             </div>
 
           </el-card>

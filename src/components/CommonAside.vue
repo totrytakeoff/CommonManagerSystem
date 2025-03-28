@@ -8,7 +8,7 @@
         后台
       </h3>
 
-      <el-menu-item v-for="item in noChildren" :key="item.path" :index="item.path">
+      <el-menu-item v-for="item in noChildren" :key="item.path" :index="item.path" @click="handleMenu(item)">
         <!-- <el-icon :name="item.icon"></el-icon> -->
         <component class="icon" :is="item.icon"></component>
         <span>{{ item.label }}</span>
@@ -23,8 +23,11 @@
 
 
         <el-menu-item-group>
-          <el-menu-item v-for="(subItem, subIdx) in item.children" :key="subItem.path" :index="subItem.path">
-            <component class="icon" :is="subItem.icon"></component>
+          <el-menu-item v-for="(subItem, subIdx) in item.children" :key="subItem.path" :index="subItem.path"
+            @click="handleMenu(subItem)">
+
+            <component class=" icon" :is="subItem.icon"> </component>
+
             <span>{{ subItem.label }}</span>
 
           </el-menu-item>
@@ -44,6 +47,11 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useAllDataStore } from '@/stores'
+import { useRouter, useRoute } from 'vue-router'
+
+const router = useRouter();
+const route = useRoute();
+
 
 const list = ref([
   {
@@ -99,6 +107,15 @@ const noChildren = computed(() => {
 const hasChildren = computed(() => {
   return list.value.filter(item => item.children)
 })
+
+const handleMenu = (item: any) => {
+  router.push({
+    path: item.path
+  })
+  store.selectMenu(item)
+}
+
+
 
 
 const store = useAllDataStore()

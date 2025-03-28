@@ -1,54 +1,54 @@
 <template>
-    <div class="common-layout">
-        <el-container class="lay-container">
+  <div class="common-layout">
+    <el-container class="lay-container">
 
-            <!-- 自定义侧边栏 -->
-            <common-aside />
+      <!-- 自定义侧边栏 -->
+      <common-aside />
 
-            <el-container>
+      <el-container>
 
-                <el-header class="el-header">
-                    <!-- 自定义头部 -->
-                    <common-header />
-                </el-header>
+        <el-header class="el-header">
+          <!-- 自定义头部 -->
+          <common-header />
+        </el-header>
+        <!-- 自定义标签页 -->
+        <common-tab />
 
+        <el-main class="right-main">
+          <router-view />
+        </el-main>
 
-                <el-main class="right-main">
-                    <router-view />
-                </el-main>
+      </el-container>
 
-            </el-container>
+    </el-container>
 
-        </el-container>
-
-    </div>
+  </div>
 </template>
 
 
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import CommonAside from '@/components/CommonAside.vue'
-
 import CommonHeader from '@/components/CommonHeader.vue'
+import CommonTab from '@/components/CommonTab.vue'
+
 
 </script>
 
 
 <style scoped lang="less">
 .common-layout {
-    height: 100%;
+  height: 100%;
 
 }
 
 .lay-container {
-    height: 100%;
+  height: 100%;
 }
 
 
 .el-header {
-    background-color: #333;
-    color: #fff;
+  background-color: #333;
+  color: #fff;
 }
-
-
 </style>
