@@ -13,7 +13,7 @@
   </div>
 
   <div class="table">
-    <el-table :data="tableData" style="width: 100%">
+    <el-table :data="tableData" stripe style="width: 100%">
 
       <el-table-column fixed label="序号" width="60">
         <template #default="scope">

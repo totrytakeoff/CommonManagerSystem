@@ -19,7 +19,7 @@
                 <template #dropdown>
                     <el-dropdown-menu>
                         <el-dropdown-item>个人中心</el-dropdown-item>
-                        <el-dropdown-item>退出</el-dropdown-item>
+                        <el-dropdown-item @click="exit">退出</el-dropdown-item>
 
                     </el-dropdown-menu>
                 </template>
@@ -37,9 +37,16 @@
 // import { computed, ref } from 'vue'
 import { useAllDataStore } from '@/stores'
 import getImageUrl from '@/utils/getUserData'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const exit = () => {
+    router.push('/login')
+}
 
 const store = useAllDataStore()
-const toggleAside = () => {    
+const toggleAside = () => {
     store.toggleCollapse()
 }
 
@@ -99,5 +106,3 @@ const toggleAside = () => {
     cursor: pointer !important;
 }
 </style>
-
-
