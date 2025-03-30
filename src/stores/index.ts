@@ -2,7 +2,7 @@ import type { Menu } from '@/types.ts';
 import { fa } from 'element-plus/es/locales.mjs';
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
-import { generateRoutes } from '@/router';
+import { updateRoutes } from '@/router';
 import { type RouteRecordRaw } from 'vue-router';
 import router from '@/router';
 
@@ -57,18 +57,7 @@ export const useAllDataStore = defineStore('allData', () => {
             console.log('Restored menuList:', JSON.parse(storedMenuList));
             menuList.value = JSON.parse(storedMenuList);
 
-            // 动态生成路由
-            const dynamicRoutes = generateRoutes(menuList.value);
-            const mainRoute = router
-                .getRoutes()
-                .find((route: any) => route.name === 'main');
-            if (mainRoute) {
-                mainRoute.children = dynamicRoutes;
-                dynamicRoutes.forEach((route) => {
-                    router.addRoute('main', route);
-                });
-            }
-            console.log('Generated dynamic routes!!!:', dynamicRoutes);
+            updateRoutes(menuList.value);
         } else {
             console.warn('No menuList found in localStorage');
         }
@@ -85,16 +74,32 @@ export const useAllDataStore = defineStore('allData', () => {
         menuList.value = val;
         localStorage.setItem('menuList', JSON.stringify(val));
         // 动态生成路由
-        const dynamicRoutes = generateRoutes(val);
-        const mainRoute = router
-            .getRoutes()
-            .find((route: any) => route.name === 'main');
-        if (mainRoute) {
-            mainRoute.children = dynamicRoutes;
-            dynamicRoutes.forEach((route) => {
-                router.addRoute('main', route);
-            });
-        }
+        updateRoutes(menuList.value);
+    }
+
+    function updateTags(tag: any) {
+        //找到要删除的tab索引，使用splice方法删除
+        let index = tags.value.findIndex((item) => item.name === tag.name);
+        tags.value.splice(index, 1);
+    }
+    //定义重置方法
+    function clearn() {
+        //删除本地缓存，因为这个clearn方法是用户退出执行的
+        localStorage.removeItem('token');
+        localStorage.removeItem('menuList');
+
+        token.value = '';
+        tags.value = [
+            {
+                path: '/home',
+                name: 'home',
+                label: '首页',
+                icon: 'home',
+            },
+        ];
+        updateRoutes([]);
+        menuList.value = [];
+        currentMenu = null;
     }
 
     // 计算属性：提供只读的 token 和 menuList
@@ -112,5 +117,7 @@ export const useAllDataStore = defineStore('allData', () => {
         getMenuList,
         getToken,
         initializeState,
+        updateTags,
+        clearn,
     };
 });

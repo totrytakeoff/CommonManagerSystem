@@ -16,13 +16,14 @@ import { useAllDataStore } from '@/stores/index.ts';
 const app = createApp(App);
 
 app.use(createPinia());
-app.use(router);
 
 app.use(ElementPlus);
 
 const store = useAllDataStore();
 store.initializeState();
 
+console.log('currut:', router.getRoutes());
+app.use(router);
 console.log('currut:', router.getRoutes());
 
 app.mount('#app');

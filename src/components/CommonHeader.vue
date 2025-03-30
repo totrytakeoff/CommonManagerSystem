@@ -19,7 +19,7 @@
                 <template #dropdown>
                     <el-dropdown-menu>
                         <el-dropdown-item>个人中心</el-dropdown-item>
-                        <el-dropdown-item @click="exit">退出</el-dropdown-item>
+                        <el-dropdown-item @click="logout">退出</el-dropdown-item>
 
                     </el-dropdown-menu>
                 </template>
@@ -41,8 +41,10 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
-const exit = () => {
+const logout = () => {
     router.push('/login')
+    // 清空数据
+    store.clearn();
 }
 
 const store = useAllDataStore()

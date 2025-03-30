@@ -61,11 +61,25 @@ export function generateRoutes(menuList: Menu[]): RouteRecordRaw[] {
     return routes;
 }
 
+export function updateRoutes(menuList: Menu[]) {
+    // 动态生成路由
+    const dynamicRoutes = generateRoutes(menuList);
+    const mainRoute = router
+        .getRoutes()
+        .find((route: any) => route.name === 'main');
+    if (mainRoute) {
+        mainRoute.children = dynamicRoutes;
+        dynamicRoutes.forEach((route) => {
+            router.addRoute('main', route);
+        });
+    }
+}
+
 router.beforeEach(async (to, from, next) => {
     const store = useAllDataStore();
     const token = store.getToken;
 
-    store.initializeState();
+    // store.initializeState();
     // 如果用户未登录且访问的不是登录页面，则跳转到登录页面
     if (!token && to.path !== '/login') {
         return next('/login');
@@ -79,19 +93,7 @@ router.beforeEach(async (to, from, next) => {
     ) {
         try {
             // 动态生成路由
-            const dynamicRoutes = generateRoutes(store.getMenuList as Menu[]);
-            const mainRoute = router
-                .getRoutes()
-                .find((route) => route.name === 'main');
-
-            if (mainRoute) {
-                // 将动态路由添加到 main 路由的 children 中
-                mainRoute.children = dynamicRoutes;
-                dynamicRoutes.forEach((route) => {
-                    router.addRoute('main', route);
-                });
-            }
-
+            updateRoutes(store.getMenuList);
             // 重新触发导航，确保动态路由生效
             return next({ ...to, replace: true });
         } catch (error) {

@@ -1,6 +1,7 @@
 <template>
     <el-aside :width="asideWidth">
-        <el-menu background-color="#545c64" text-color="#fff" :collapse=isCollapse :collapse-transition="true">
+        <el-menu background-color="#545c64" text-color="#fff" :collapse=isCollapse :collapse-transition="true"
+            :default-active='activeMenu'>
             <h3 v-show="!isCollapse">
                 通用后台管理系统
             </h3>
@@ -76,7 +77,9 @@ const handleMenu = (item: any) => {
     store.selectMenu(item)
 }
 
-
+const activeMenu = computed<string>(() => {
+    return route.path; // 确保返回字符串
+});
 
 
 const store = useAllDataStore()
